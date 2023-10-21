@@ -1,6 +1,6 @@
 return {
   defaults = { lazy = true },
-  install = { colorscheme = { "onedark" } },
+  install = { colorscheme = { "nvchad" } },
 
   ui = {
     icons = {
@@ -41,7 +41,6 @@ return {
         "compiler",
         "bugreport",
         "ftplugin",
-        "editorconfig",
       },
     },
   },

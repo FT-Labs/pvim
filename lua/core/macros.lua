@@ -19,3 +19,4 @@ vim.cmd [[
 		autocmd BufEnter *.html let @g=":w\<CR> :silent !chromium % \<CR>"
 	augroup end
 ]]
+

@@ -1,5 +1,3 @@
-local M = {}
-
 local function on_attach(bufnr)
   local api = require('nvim-tree.api')
 
@@ -76,140 +74,98 @@ local function on_attach(bufnr)
   vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open: Vertical Split'))
   vim.keymap.set('n', 'n', api.fs.create, opts('Create'))
   vim.keymap.set('n', 'C', api.tree.change_root_to_node, opts('CD'))
-
 end
 
-local opts = {
 
-  setup = {
-		on_attach = on_attach,
-    disable_netrw = true,
-    hijack_netrw = true,
-    open_on_tab = false,
-    hijack_cursor = false,
-    update_cwd = true,
-    diagnostics = {
-      enable = true,
-      icons = {
-        hint = "",
-        info = "",
-        warning = "",
-        error = "",
-      },
-    },
-    actions = {
-      use_system_clipboard = true,
-      change_dir = {
-        enable = true,
-        global = true,
-        restrict_above_cwd = false,
-      },
-      open_file = {
-        window_picker = {
-          enable = true,
-          chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-          exclude = {
-            filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-            buftype = { "nofile", "terminal", "help" },
-          },
-        },
-      },
-    },
-    update_focused_file = {
-      enable = true,
-      update_cwd = true,
-      ignore_list = {},
-    },
-    system_open = {
-      cmd = nil,
-      args = {},
-    },
-    git = {
-      enable = true,
-      ignore = false,
-      timeout = 200,
-    },
-    renderer = {
-      indent_markers = {
-        enable = true,
-        icons = {
-          corner = "└ ",
-          edge = "│ ",
-          none = "  ",
-        },
-      },
-    },
-    view = {
-      hide_root_folder = false,
-      side = "left",
-      number = false,
-      relativenumber = false,
-      signcolumn = "yes",
-    },
-    filters = {
-      dotfiles = false,
-      custom = { "node_modules", ".cache" },
-    },
-    trash = {
-      cmd = "trash",
-      require_confirm = true,
+local options = {
+	on_attach = on_attach,
+  filters = {
+    dotfiles = false,
+    exclude = { vim.fn.stdpath "config" .. "/lua/custom" },
+  },
+  disable_netrw = true,
+  hijack_netrw = true,
+  hijack_cursor = true,
+  hijack_unnamed_buffer_when_opening = false,
+  sync_root_with_cwd = true,
+  update_focused_file = {
+    enable = true,
+    update_root = false,
+  },
+  view = {
+    adaptive_size = false,
+    side = "left",
+    width = 30,
+    preserve_window_proportions = true,
+  },
+  git = {
+    enable = false,
+    ignore = true,
+  },
+  filesystem_watchers = {
+    enable = true,
+  },
+  actions = {
+	use_system_clipboard = true,
+	change_dir = {
+		enable = true,
+		global = true,
+		restrict_above_cwd = false,
+	},
+    open_file = {
+		window_picker = {
+			enable = true,
+			chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+			exclude = {
+			  filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
+			  buftype = { "nofile", "terminal", "help" },
+			},
+		},
     },
   },
-  show_icons = {
-    git = 1,
-    folders = 1,
-    files = 1,
-    folder_arrows = 1,
-    tree_width = 30,
-  },
-  quit_on_open = 0,
-  git_hl = 1,
-  disable_window_picker = 0,
-  root_folder_modifier = ":t",
-  icons = {
-    default = "",
-    symlink = "",
-    git = {
-      unstaged = "",
-      staged = "S",
-      unmerged = "",
-      renamed = "➜",
-      deleted = "",
-      untracked = "U",
-      ignored = "◌",
+
+  renderer = {
+    root_folder_label = false,
+    highlight_git = false,
+    highlight_opened_files = "none",
+
+    indent_markers = {
+      enable = false,
     },
-    folder = {
-      default = "",
-      open = "",
-      empty = "",
-      empty_open = "",
-      symlink = "",
+
+    icons = {
+      show = {
+        file = true,
+        folder = true,
+        folder_arrow = true,
+        git = false,
+      },
+
+      glyphs = {
+        default = "󰈚",
+        symlink = "",
+        folder = {
+          default = "",
+          empty = "",
+          empty_open = "",
+          open = "",
+          symlink = "",
+          symlink_open = "",
+          arrow_open = "",
+          arrow_closed = "",
+        },
+        git = {
+          unstaged = "✗",
+          staged = "✓",
+          unmerged = "",
+          renamed = "➜",
+          untracked = "★",
+          deleted = "",
+          ignored = "◌",
+        },
+      },
     },
   },
 }
 
-function M.setup()
-  local status_ok, nvim_tree = pcall(require, "nvim-tree")
-  if not status_ok then
-    return
-  end
-
-  local config_status_ok, nvim_tree_config = pcall(require, "nvim-tree.config")
-  if not config_status_ok then
-    return
-  end
-
-  nvim_tree.setup(opts.setup)
-end
-
-function M.start_telescope(telescope_mode)
-  local node = require("nvim-tree.lib").get_node_at_cursor()
-  local abspath = node.link_to or node.absolute_path
-  local is_folder = node.open ~= nil
-  local basedir = is_folder and abspath or vim.fn.fnamemodify(abspath, ":h")
-  require("telescope.builtin")[telescope_mode] {
-    cwd = basedir,
-  }
-end
-
-return M
+return options

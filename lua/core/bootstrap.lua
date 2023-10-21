@@ -1,4 +1,5 @@
 local M = {}
+local fn = vim.fn
 
 M.echo = function(str)
   vim.cmd "redraw"
@@ -6,13 +7,13 @@ M.echo = function(str)
 end
 
 local function shell_call(args)
-  local output = vim.fn.system(args)
+  local output = fn.system(args)
   assert(vim.v.shell_error == 0, "External call failed with error code: " .. vim.v.shell_error .. "\n" .. output)
 end
 
 M.lazy = function(install_path)
   ------------- base46 ---------------
-  local lazy_path = vim.fn.stdpath "data" .. "/lazy/base46"
+  local lazy_path = fn.stdpath "data" .. "/lazy/base46"
 
   M.echo "  Compiling base46 theme to bytecode ..."
 
@@ -30,6 +31,9 @@ M.lazy = function(install_path)
 
   -- install plugins
   require "plugins"
+
+  -- mason packages & show post_boostrap screen
+  require "nvchad.post_install"()
 end
 
 return M
