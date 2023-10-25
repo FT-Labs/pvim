@@ -37,6 +37,7 @@ M.general = {
 	["<C-c>"] = {'y:call system("xclip -i -selection clipboard", getreg("\\""))<CR>:call system("xclip -i", getreg("\\""))<CR>'},
 	["<A-j>"] = {":m .+1<CR>=="},
 	["<A-k>"] = {":m .-2<CR>=="},
+	["<leader>e"] = {":<C-U>let i=1 | '<,'>g/^/s//\\=i/ | let i=i+1 | nohl<cr>"},
 	["<"] = {"<gv"},
 	[">"] = {">gv"},
   },
@@ -239,7 +240,7 @@ M.telescope = {
     -- find
     ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "Find files" },
     ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "Find all" },
-    ["<c-g>"] = { "<cmd> Telescope live_grep <CR>", "Live grep" },
+    ["<c-g>"] = { '<cmd> Telescope live_grep search_dirs={vim.fn.expand("%:p")} <CR>', "Live grep" },
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "Help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "Find oldfiles" },
     ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
