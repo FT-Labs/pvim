@@ -29,7 +29,7 @@ vim.cmd [[
 
 vim.cmd [[
 	augroup make_file
-		autocmd BufWritePost Makefile,makefile AsyncRun -post=call\ GenerateFlags() -mode=term -pos=hide compiledb make
+		autocmd BufWritePost Makefile,makefile !compiledb make
 	augroup end
 ]]
 
