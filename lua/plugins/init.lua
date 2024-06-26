@@ -2,6 +2,12 @@
 -- List of all default plugins & their definitions
 local default_plugins = {
 
+	{
+		"github/copilot.vim",
+		lazy = false,
+	},
+
+
   "nvim-lua/plenary.nvim",
 
   {
