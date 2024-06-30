@@ -17,6 +17,6 @@ vim.cmd [[
 		autocmd BufEnter *.go let @g=":w\<CR> :vsp | terminal go run % \<CR>i"
 		autocmd BufEnter *.js let @g=":w\<CR> :vsp | terminal node % \<CR>i"
 		autocmd BufEnter *.html let @g=":w\<CR> :silent !chromium % \<CR>"
+		autocmd BufEnter *.cs let @g=":w\<CR> :!mcs % \<CR> | :vsp | terminal mono %:r.exe \<CR>i"
 	augroup end
 ]]
-
